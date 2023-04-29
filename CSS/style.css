@@ -5,4 +5,10 @@
   font-family: Arial, sans-serif;
 }
 
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 200px;
+}
+
 /*# sourceMappingURL=style.css.map */

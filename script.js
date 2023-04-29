@@ -7,33 +7,33 @@ searchForm.addEventListener('submit', function (e) {
     const q = searchInput.value
     search(q)
 })
+
 function search(q) {
     const apiKey = 'ziCJtmcN4905sTwTdfSbmCPFmuAsXNh5'
-    const path = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${q}`
+    const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${q}`
 
-    fetch(path).then(function (res) {
-        return res.json()
-    }).then(function (json) {
-        console.log(json.data[0].images.url)
-        let resultsHTML = ''
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            const gifs = data.data
+            let resultsHTML = ''
 
-        json.data.forEach(function (obj) {
-            console.log(obj)
+            gifs.forEach(gif => {
+                const url = gif.images.fixed_width.url
+                const title = gif.title
 
-            const url = obj.images.url
-            const width = obj.images.width
-            const height = obj.images.height
-            const title = obj.title
+                resultsHTML += `
+          <div>
+            <img src="${url}" alt="${title}" />
+            <p>${title}</p>
+          </div>
+        `
+            })
 
-            resultsHTML += `<img
-            src="${url}"
-            width="${width}"
-            height="${height}"
-            alt="${title}">`
+            resultsEl.innerHTML = resultsHTML
         })
-
-        resultsEl.innerHTML = resultsHTML
-    }).catch(function (err) {
-        console.log(err.message)
-    })
+        .catch(err => {
+            console.error(err)
+        })
 }
